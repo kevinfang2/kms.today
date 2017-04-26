@@ -1,0 +1,147 @@
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<title> brb kms </title>
+</head>
+<body>
+	<style>
+	html{
+		height:100%;
+	}
+	body {
+    min-height: 100%;
+		/*overflow:hidden;*/
+	}
+	.same{
+		width:100%;
+		height:100%;
+		padding:0px;
+		margin:0px;
+	}
+
+	img {
+    display: inline;
+		width:100%;
+		height:100%;
+	}
+
+	td{
+		width:200px;
+		height:200px;
+		margin:0px;
+		padding:0px;
+		spacing:0px;
+	}
+
+	table{
+		width:100%;
+		height:100%;
+		border:none;
+		border-spacing:0px;
+	}
+
+	#overlay {
+    height: 100%;
+    width: 100%;
+		margin:10px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+		opacity:0.2;
+    overflow-x: hidden;
+    transition: 0.5s;
+	}
+
+	</style>
+	<div id="overlay">
+	</div>
+	<table border="0" cellspacing="0" cellpadding="0" id="cont">
+
+	</table>
+</body>
+
+<script>
+var width = 300;
+var height = 300;
+var screenWidth = screen.width
+var screenHeight = screen.height
+console.log(screenHeight)
+var char = screenWidth/width
+var row = screenHeight/height
+var table = document.getElementById("cont");
+console.log(row)
+var same = Math.ceil(row)
+var same2 = Math.ceil(char)
+
+// repopulate();
+// changeBackground()
+init()
+
+function init(){
+	for (var x=0; x<=same; x++){
+		var row = table.insertRow(x);
+		// var same = row.insertCell(x);
+		// same.innerHTML = ""
+		console.log(x)
+		for(var y=0; y<=same2; y++){
+			var cell = row.insertCell(y);
+			var random = Math.floor(Math.random() * 14);
+			var src = "img/" + random + ".jpg"
+
+			cell.innerHTML = "<img src='"+ src + "'>  </img>"
+		}
+	}
+}
+
+function repopulate(){
+	var table = document.getElementById("cont");
+	for (var i = 0, row; row = table.rows[i]; i++) {
+	   for (var j = 0, col; col = row.cells[j]; j++) {
+			 	var random = Math.floor(Math.random() * 14);
+ 				var src = "img/" + random + ".jpg"
+
+ 				col.innerHTML = "<img src='"+ src + "'>  </img>"
+	   }
+	}
+
+	// for (var x=0; x<=same; x++){
+	// 	var row = table.insertRow(x);
+	// 	// var same = row.insertCell(x);
+	// 	// same.innerHTML = ""
+	// 	console.log(x)
+	// 	for(var y=0; y<=same2; y++){
+	// 		var cell = row.insertCell(y);
+	// 		var random = Math.floor(Math.random() * 14);
+	// 		var src = "img/" + random + ".jpg"
+	//
+	// 		cell.innerHTML = "<img src='"+ src + "'>  </img>"
+	// 	}
+	// }
+}
+
+function changeBackground(){
+	var color = getRandomColor();
+	var overlay = document.getElementById("overlay")
+	overlay.style.background = color
+	document.body.style.background = getRandomColor()
+}
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+function reshuffle(){
+	changeBackground();
+	repopulate();
+}
+
+var same = setInterval(reshuffle, 3000);
+
+
+</script>
+</html>
