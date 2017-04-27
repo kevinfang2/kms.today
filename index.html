@@ -2,6 +2,8 @@
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<title> brb kms </title>
+	<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+
 </head>
 <body>
 	<style>
@@ -12,6 +14,7 @@
     min-height: 100%;
 		overflow:hidden;
 		margin:0px;
+		font-family: 'Indie Flower', cursive;
 	}
 	.same{
 		width:100%;
@@ -41,26 +44,85 @@
 		border-spacing:0px;
 	}
 
-	#overlay {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-		opacity:0.2;
-    overflow-x: hidden;
-    transition: 0.5s;
+	.dropbtn {
+		position: fixed;
+    bottom: 0;
+    right: 0;
+		background-color:#ddd;
+		background-image: url('img/menu.png');
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		padding:30px;
+		border-radius:20px;
+		border-style: solid;
+		position:absolute;
+		bottom:10;
+		right:10;
+		height:50px;
+		width:50px;
+	}
+	.dropbtn:focus {
+    outline:none;
+	}
+	.dropbtn:hover{
+		background-color:#ccc;
 	}
 
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgba(255,255,255,0.6);
+    min-width: 300px;
+		right:30px;
+		bottom:75px;
+		font-size:30px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a#heart{
+	background-color:rgba(255,255,0,0.7);
+}
+.dropdown-content a#heart:hover{
+	background-color:rgba(200,200,0,0.7);
+}
+.dropdown-content a#roll{
+	background-color:rgba(0,255,255,0.7);
+}
+.dropdown-content a#roll:hover{
+	background-color:rgba(0,200,200,0.7);
+}
+.dropdown-content a#beaut{
+	background-color:rgba(255,0,255,0.7);
+}
+.dropdown-content a#beaut:hover{
+	background-color:rgba(200,0,200,0.7);
+}
+
+.show {display:block;}
+
 	</style>
-	<div id="overlay">
+
+	<div class="dropdown">
+	  <button onclick="myFunction()" class="dropbtn"></button>
+	  <div id="myDropdown" class="dropdown-content">
+	    <a href="#" onclick="song('heart')" id="heart">me heart will go on</a>
+	    <a href="#" onclick="song('nevergonna')" id="roll">best song na</a>
+	    <a href="#" onclick="song('beautiful')" id="beaut">im beautiful</a>
+	  </div>
 	</div>
+
 	<table border="0" cellspacing="0" cellpadding="0" id="cont">
 
 	</table>
-	<audio src="path/to/song.mp3" controls autoplay></audio>
-
 </body>
 
 <script>
@@ -79,7 +141,7 @@ var same2 = Math.ceil(char)
 // repopulate();
 // changeBackground()
 init()
-
+var audio;
 function init(){
 	for (var x=0; x<=same; x++){
 		var row = table.insertRow(x);
@@ -91,13 +153,18 @@ function init(){
 			cell.innerHTML = "<img src='"+ src + "'>  </img>"
 		}
 	}
+	audio = new Audio('audio/' + name + '.mp3');
+
+	song('heart', audio)
 }
 
 function meme(){
-	var random = Math.floor(Math.random() * 7);
-	var src = "memes/" + random + ".png"
-	console.log("Src is " + src)
-	makeDiv(src)
+	var random = Math.floor(Math.random() * 10);
+	for (var x=0; x<random; x++){
+		var random2 = Math.floor(Math.random() * 7);
+		var src = "memes/" + random2 + ".png"
+		makeDiv(src)
+	}
 }
 
 function repopulate(){
@@ -130,7 +197,6 @@ function getRandomColor() {
 function reshuffle(){
 	// changeBackground();
 	repopulate();
-	meme();
 }
 
 function makeDiv(src){
@@ -154,14 +220,36 @@ function makeDiv(src){
         'position':'absolute',
         'left':posx+'px',
         'top':posy+'px'
-    }).appendTo( 'body' ).fadeIn(100).delay(1000).fadeOut(500, function(){
+    }).appendTo( 'body' ).fadeIn(100).delay(400).fadeOut(500, function(){
       $(this).remove();
-      makeDiv(src);
     });
 };
 
-var same = setInterval(reshuffle, 3000);
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
 
+function song(name){
+	// audio.pause();
+	audio.src='audio/' + name + ".mp3";
+	audio.play();
+}
+
+
+
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
 
 </script>
 </html>
