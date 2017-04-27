@@ -106,6 +106,18 @@
 .dropdown-content a#beaut:hover{
 	background-color:rgba(200,0,200,0.7);
 }
+.dropdown-content a#silence{
+	background-color:rgba(0,0,255,0.7);
+}
+.dropdown-content a#silence:hover{
+	background-color:rgba(0,0,200,0.7);
+}
+.dropdown-content a#life{
+	background-color:rgba(255,0,0,0.7);
+}
+.dropdown-content a#life:hover{
+	background-color:rgba(200,0,0,0.7);
+}
 
 .show {display:block;}
 
@@ -117,6 +129,8 @@
 	    <a href="#" onclick="song('heart')" id="heart">me heart will go on</a>
 	    <a href="#" onclick="song('nevergonna')" id="roll">best song na</a>
 	    <a href="#" onclick="song('beautiful')" id="beaut">im beautiful</a>
+			<a href="#" onclick="song('silence')" id="silence">moment of silence</a>
+			<a href="#" onclick="song('life')" id="life">bring me to life</a>
 	  </div>
 	</div>
 
@@ -126,15 +140,13 @@
 </body>
 
 <script>
-var width = 300;
-var height = 300;
+var width = 200;
+var height = 200;
 var screenWidth = screen.width
 var screenHeight = screen.height
-console.log(screenHeight)
 var char = screenWidth/width
 var row = screenHeight/height
 var table = document.getElementById("cont");
-console.log(row)
 var same = Math.ceil(row)
 var same2 = Math.ceil(char)
 
@@ -145,7 +157,6 @@ var audio;
 function init(){
 	for (var x=0; x<=same; x++){
 		var row = table.insertRow(x);
-		console.log(x)
 		for(var y=0; y<=same2; y++){
 			var cell = row.insertCell(y);
 			var random = Math.floor(Math.random() * 14);
@@ -155,13 +166,14 @@ function init(){
 	}
 	audio = new Audio('audio/' + name + '.mp3');
 
-	song('heart', audio)
+	// song('heart', audio)
+	repopulate();
 }
 
 function meme(){
 	var random = Math.floor(Math.random() * 10);
 	for (var x=0; x<random; x++){
-		var random2 = Math.floor(Math.random() * 7);
+		var random2 = Math.floor(Math.random() * 8);
 		var src = "memes/" + random2 + ".png"
 		makeDiv(src)
 	}
@@ -171,13 +183,40 @@ function repopulate(){
 	var table = document.getElementById("cont");
 	for (var i = 0, row; row = table.rows[i]; i++) {
 	   for (var j = 0, col; col = row.cells[j]; j++) {
-			 	var random = Math.floor(Math.random() * 14);
+			 	var random = Math.floor(Math.random() * 83);
  				var src = "img/" + random + ".jpg"
 
+				col.style.opacity = '1.0';
  				col.innerHTML = "<img src='"+ src + "'>  </img>"
+				// background-image: url('img/menu.png');
+
+				fadeOut(col, function(){
+					col.innerHTML = "<img src='img/pony.png'> </img>";
+					col.style.opacity = 1.0;
+					console.log("got here")
+				})
 	   }
 	}
 }
+
+function fadeOut(el, callback) {
+  var tick = function() {
+    el.style.opacity = +el.style.opacity - 0.1;
+		//
+    if (+el.style.opacity > 0.5) {
+			tick()
+      // (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16)
+    }
+
+		if(el.style.opacity == 0.5){
+			if(callback) callback();
+		}
+  };
+
+  tick();
+
+}
+
 
 function changeBackground(){
 	var color = getRandomColor();
@@ -199,7 +238,6 @@ function reshuffle(){
 }
 
 function makeDiv(src){
-		console.log("url('" + src + "') cover")
     var divsize = ((Math.random()*300) + 50).toFixed();
     var color = '#'+ Math.round(0xffffff * Math.random()).toString(16);
     $newdiv = $('<div/>').css({
@@ -248,8 +286,8 @@ window.onclick = function(event) {
   }
 }
 
-window.setInterval(repopulate, 3000);
-window.setInterval(meme, 400);
+// window.setInterval(repopulate, 2000);
+window.setInterval(meme, 600);
 
 
 </script>
