@@ -10,7 +10,8 @@
 	}
 	body {
     min-height: 100%;
-		/*overflow:hidden;*/
+		overflow:hidden;
+		margin:0px;
 	}
 	.same{
 		width:100%;
@@ -43,7 +44,6 @@
 	#overlay {
     height: 100%;
     width: 100%;
-		margin:10px;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -59,6 +59,8 @@
 	<table border="0" cellspacing="0" cellpadding="0" id="cont">
 
 	</table>
+	<audio src="path/to/song.mp3" controls autoplay></audio>
+
 </body>
 
 <script>
@@ -81,17 +83,21 @@ init()
 function init(){
 	for (var x=0; x<=same; x++){
 		var row = table.insertRow(x);
-		// var same = row.insertCell(x);
-		// same.innerHTML = ""
 		console.log(x)
 		for(var y=0; y<=same2; y++){
 			var cell = row.insertCell(y);
 			var random = Math.floor(Math.random() * 14);
 			var src = "img/" + random + ".jpg"
-
 			cell.innerHTML = "<img src='"+ src + "'>  </img>"
 		}
 	}
+}
+
+function meme(){
+	var random = Math.floor(Math.random() * 7);
+	var src = "memes/" + random + ".png"
+	console.log("Src is " + src)
+	makeDiv(src)
 }
 
 function repopulate(){
@@ -104,20 +110,6 @@ function repopulate(){
  				col.innerHTML = "<img src='"+ src + "'>  </img>"
 	   }
 	}
-
-	// for (var x=0; x<=same; x++){
-	// 	var row = table.insertRow(x);
-	// 	// var same = row.insertCell(x);
-	// 	// same.innerHTML = ""
-	// 	console.log(x)
-	// 	for(var y=0; y<=same2; y++){
-	// 		var cell = row.insertCell(y);
-	// 		var random = Math.floor(Math.random() * 14);
-	// 		var src = "img/" + random + ".jpg"
-	//
-	// 		cell.innerHTML = "<img src='"+ src + "'>  </img>"
-	// 	}
-	// }
 }
 
 function changeBackground(){
@@ -136,9 +128,37 @@ function getRandomColor() {
     return color;
 }
 function reshuffle(){
-	changeBackground();
+	// changeBackground();
 	repopulate();
+	meme();
 }
+
+function makeDiv(src){
+		console.log("url('" + src + "') cover")
+    var divsize = ((Math.random()*300) + 50).toFixed();
+    var color = '#'+ Math.round(0xffffff * Math.random()).toString(16);
+    $newdiv = $('<div/>').css({
+        'width':divsize+'px',
+        'height':divsize+'px',
+				'background-image': "url('" + src + "')",
+				'-webkit-background-size': 'cover',
+        '-moz-background-size': 'cover',
+        '-o-background-size': 'cover',
+        'background-size': 'cover'
+    });
+
+    var posx = (Math.random() * (screenWidth - divsize)).toFixed();
+    var posy = (Math.random() * (screenHeight - divsize)).toFixed();
+		// console.log(posx)
+    $newdiv.css({
+        'position':'absolute',
+        'left':posx+'px',
+        'top':posy+'px'
+    }).appendTo( 'body' ).fadeIn(100).delay(1000).fadeOut(500, function(){
+      $(this).remove();
+      makeDiv(src);
+    });
+};
 
 var same = setInterval(reshuffle, 3000);
 
