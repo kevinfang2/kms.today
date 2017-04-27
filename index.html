@@ -12,6 +12,7 @@
 	}
 	body {
     min-height: 100%;
+		background-color:#000;
 		overflow:hidden;
 		margin:0px;
 		font-family: 'Indie Flower', cursive;
@@ -137,6 +138,8 @@
 	<table border="0" cellspacing="0" cellpadding="0" id="cont">
 
 	</table>
+	<!-- <div id="overlay" style="width:100%;margin:0px; height:100%"> -->
+	<!-- </div> -->
 </body>
 
 <script>
@@ -166,8 +169,7 @@ function init(){
 	}
 	audio = new Audio('audio/' + name + '.mp3');
 
-	// song('heart', audio)
-	repopulate();
+	delay(5.0)
 }
 
 function meme(){
@@ -181,6 +183,7 @@ function meme(){
 
 function repopulate(){
 	var table = document.getElementById("cont");
+
 	for (var i = 0, row; row = table.rows[i]; i++) {
 	   for (var j = 0, col; col = row.cells[j]; j++) {
 			 	var random = Math.floor(Math.random() * 83);
@@ -190,29 +193,38 @@ function repopulate(){
  				col.innerHTML = "<img src='"+ src + "'>  </img>"
 				// background-image: url('img/menu.png');
 
-				fadeOut(col, function(){
-					col.innerHTML = "<img src='img/pony.png'> </img>";
-					col.style.opacity = 1.0;
-					console.log("got here")
+				fadeOut(col, function(col){
+					console.log(col)
+					col.innerHTML = "<img style='width:100px' src='img/sonic.png'></img>"
+					col.style.opacity = 1.0
 				})
 	   }
 	}
+}
+
+function delay(time){
+	repopulate();
+
+	var seconds = time * 1000;
+	setTimeout(function(){
+		delay(time)
+	}, seconds)
 }
 
 function fadeOut(el, callback) {
   var tick = function() {
     el.style.opacity = +el.style.opacity - 0.1;
 		//
-    if (+el.style.opacity > 0.5) {
-			tick()
-      // (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16)
+    if (+el.style.opacity > 0.0) {
+      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16)
     }
 
-		if(el.style.opacity == 0.5){
-			if(callback) callback();
+		if(el.style.opacity == 0.0){
+			console.log("+el.style.opacity is ")
+			console.log(+el.style.opacity)
+			if(callback) callback(el);
 		}
   };
-
   tick();
 
 }
@@ -287,7 +299,7 @@ window.onclick = function(event) {
 }
 
 // window.setInterval(repopulate, 2000);
-window.setInterval(meme, 600);
+// window.setInterval(meme, 600);
 
 
 </script>
