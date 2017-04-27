@@ -195,7 +195,6 @@ function getRandomColor() {
     return color;
 }
 function reshuffle(){
-	// changeBackground();
 	repopulate();
 }
 
@@ -215,7 +214,7 @@ function makeDiv(src){
 
     var posx = (Math.random() * (screenWidth - divsize)).toFixed();
     var posy = (Math.random() * (screenHeight - divsize)).toFixed();
-		// console.log(posx)
+
     $newdiv.css({
         'position':'absolute',
         'left':posx+'px',
@@ -230,11 +229,9 @@ function myFunction() {
 }
 
 function song(name){
-	// audio.pause();
 	audio.src='audio/' + name + ".mp3";
 	audio.play();
 }
-
 
 
 window.onclick = function(event) {
@@ -250,6 +247,10 @@ window.onclick = function(event) {
     }
   }
 }
+
+window.setInterval(repopulate, 3000);
+window.setInterval(meme, 400);
+
 
 </script>
 </html>
