@@ -205,9 +205,9 @@ function kmsMeme(image, scale){
 	var src = "img/" + image + ".png"
 
 
-	var posx = (Math.random()*screenWidth - 200).toFixed();
+	var posx = (0).toFixed();
 	var posy = (0).toFixed();
-	$newdiv.html("<img style='margin:auto; display:block; width:" + divsize + "px; height:" + divsize*scale + "px' src='" + src + "'</img>");
+	$newdiv.html("<img style='margin:auto; display:block; left:" + Math.random() * 100 +"px;width:" + divsize + "px; height:" + divsize*scale + "px' src='" + src + "'</img>");
 
 	$newdiv.css({
 			'position':'absolute',
@@ -215,10 +215,13 @@ function kmsMeme(image, scale){
 			'top':posy+'px'
 	}).appendTo('body').hide().fadeIn(5000).delay(3000).fadeOut(5000, function(){
 		$(this).remove();
+		refreshIntervalId = window.setInterval(meme, 600);
 	});
 }
 
 function kms(){
+	clearInterval(refreshIntervalId);
+
 	var random = Math.floor(Math.random() * 2)
 	if(random == 0){
 		kmsMeme("pony",1.4225)
@@ -339,7 +342,7 @@ window.onclick = function(event) {
 
 window.setInterval(repopulate, 100);
 window.setInterval(kms, 20000);
-// window.setInterval(meme, 600);
+var refreshIntervalId = window.setInterval(meme, 600);
 
 
 </script>
