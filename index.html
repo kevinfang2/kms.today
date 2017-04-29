@@ -12,7 +12,7 @@
 	}
 	body {
     min-height: 100%;
-		background-color:#000;
+		/*background-color:#000;*/
 		overflow:hidden;
 		margin:0px;
 		font-family: 'Indie Flower', cursive;
@@ -122,6 +122,11 @@
 
 .show {display:block;}
 
+#overlay{
+	/*opacity:0.0;*/
+	background-color:rgba(0, 0, 0, 0.0);
+}
+
 	</style>
 
 	<div class="dropdown">
@@ -138,6 +143,7 @@
 	<table border="0" cellspacing="0" cellpadding="0" id="cont">
 
 	</table>
+
 	<!-- <div id="overlay" style="width:100%;margin:0px; height:100%"> -->
 	<!-- </div> -->
 </body>
@@ -152,11 +158,12 @@ var row = screenHeight/height
 var table = document.getElementById("cont");
 var same = Math.ceil(row)
 var same2 = Math.ceil(char)
+var gridStatusArray = new Array(40+1).join('0').split('').map(parseFloat)
 
-// repopulate();
-// changeBackground()
+
 init()
 var audio;
+
 function init(){
 	for (var x=0; x<=same; x++){
 		var row = table.insertRow(x);
@@ -169,37 +176,69 @@ function init(){
 	}
 	audio = new Audio('audio/' + name + '.mp3');
 
+
 	delay(5.0)
 }
 
 function meme(){
-	var random = Math.floor(Math.random() * 10);
-	for (var x=0; x<random; x++){
+	for (var x=0; x<10; x++){
 		var random2 = Math.floor(Math.random() * 8);
 		var src = "memes/" + random2 + ".png"
+		console.log(src)
 		makeDiv(src)
+	}
+}
+
+function kmsMeme(image, scale){
+	var divsize = Math.random() * 350 + 300;
+	$newdiv = $('<div/>').css({
+			'width': '100%',
+			'height':'100%',
+			'-webkit-background-size': 'cover',
+			'-moz-background-size': 'cover',
+			'-o-background-size': 'cover',
+			'background-size': 'cover',
+			'background-color': 'rgba(0,0,0,0.9)'
+	});
+	// col.innerHTML = "<img src='" + src + "'</img>"
+	console.log(image)
+	var src = "img/" + image + ".png"
+
+
+	var posx = (Math.random()*screenWidth - 200).toFixed();
+	var posy = (0).toFixed();
+	$newdiv.html("<img style='margin:auto; display:block; width:" + divsize + "px; height:" + divsize*scale + "px' src='" + src + "'</img>");
+
+	$newdiv.css({
+			'position':'absolute',
+			'left':posx+'px',
+			'top':posy+'px'
+	}).appendTo('body').hide().fadeIn(5000).delay(3000).fadeOut(5000, function(){
+		$(this).remove();
+	});
+}
+
+function kms(){
+	var random = Math.floor(Math.random() * 2)
+	if(random == 0){
+		kmsMeme("pony",1.4225)
+	}
+	else {
+		kmsMeme("sonic", 1.4225)
 	}
 }
 
 function repopulate(){
 	var table = document.getElementById("cont");
 
-	for (var i = 0, row; row = table.rows[i]; i++) {
-	   for (var j = 0, col; col = row.cells[j]; j++) {
-			 	var random = Math.floor(Math.random() * 83);
- 				var src = "img/" + random + ".jpg"
+	var random = Math.floor(Math.random() * table.rows.length)
+	var random2 = Math.floor(Math.random() * table.rows[0].cells.length)
+	var index = random*random2;
+	var col = table.rows[random].cells[random2]
 
-				col.style.opacity = '1.0';
- 				col.innerHTML = "<img src='"+ src + "'>  </img>"
-				// background-image: url('img/menu.png');
-
-				fadeOut(col, function(col){
-					console.log(col)
-					col.innerHTML = "<img style='width:100px' src='img/sonic.png'></img>"
-					col.style.opacity = 1.0
-				})
-	   }
-	}
+	var src = "img/" + Math.floor(Math.random() * 83) + ".jpg"
+	col.innerHTML = "<img src='" + src + "'</img>"
+	gridStatusArray[index] = 0;
 }
 
 function delay(time){
@@ -298,7 +337,8 @@ window.onclick = function(event) {
   }
 }
 
-// window.setInterval(repopulate, 2000);
+window.setInterval(repopulate, 100);
+window.setInterval(kms, 20000);
 // window.setInterval(meme, 600);
 
 
